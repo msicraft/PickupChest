@@ -197,19 +197,21 @@ public class PickupUtil {
             for (int a = 0; a<invSize; a++) {
                 ItemStack stack1 = chest1.getInventory().getItem(a);
                 ItemStack stack2 = chest2.getInventory().getItem(a);
-                if (stack1 != null && stack2 != null) {
-                    if (stack1.getType() != Material.AIR && stack2.getType() != Material.AIR) {
-                        ItemStack temp1 = new ItemStack(stack1);
-                        ItemStack temp2 = new ItemStack(stack2);
-                        temp1.setAmount(1);
-                        temp2.setAmount(1);
-                        if (temp1.equals(temp2)) {
-                            check = true;
-                        } else {
-                            check = false;
-                            break;
-                        }
-                    }
+                if (stack1 == null) {
+                    stack1 = new ItemStack(Material.AIR, 1);
+                }
+                if (stack2 == null) {
+                    stack2 = new ItemStack(Material.AIR, 1);
+                }
+                ItemStack temp1 = new ItemStack(stack1);
+                ItemStack temp2 = new ItemStack(stack2);
+                temp1.setAmount(1);
+                temp2.setAmount(1);
+                if (temp1.equals(temp2)) {
+                    check = true;
+                } else {
+                    check = false;
+                    break;
                 }
             }
         }
