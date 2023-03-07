@@ -1,0 +1,20 @@
+config-version: 1
+Setting:
+  Enabled: true
+  Display-Lore:
+    Enabled: true
+    NumberOfDisplayPerLine: 5
+    MaxLoreLine: 2
+  Prevent-Drop: true
+  Pickup-DoubleChest: false
+  Max-Pickup-Chest: -1 # -1 is unlimited
+  #If Type is 'drop', players can directly drop chests on the ground when they have reached the maximum number of chests they can hold.
+  #If Type is 'autodrop', 1 chest will automatically drop from the inventory to the ground when the player has reached the maximum number of chests.
+  Reach-Max-Chest: #available type = [drop, autodrop]
+    Type: drop
+
+Message:
+  Pickup-Chest-Name: '&aPickup Chest'
+  Prevent-Drop: "&cCan't drop this item"
+  Fail-Place-DoubleChest: "&cCan't place chests here"
+  Reach-Max-Pickup-Chest: "&cYou have reached the maximum number of chests you can have. can't move"

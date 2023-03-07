@@ -1,0 +1,15 @@
+name: PickupChest
+version: 1.0 #'${project.version}'
+main: com.msicraft.pickupchest.PickupChest
+api-version: 1.16
+authors: [ msicraft ]
+description: Allow pickup chest
+commands:
+  pickupchest:
+    description: Main command
+    aliases: [puc]
+    permission-message: You don't have permission
+permissions:
+  pickupchest.command:
+    description: Allow command
+    default: op
