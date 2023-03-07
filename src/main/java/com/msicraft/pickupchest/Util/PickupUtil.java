@@ -190,6 +190,32 @@ public class PickupUtil {
         return lore;
     }
 
+    public boolean isSameChest(org.bukkit.block.Chest chest1, org.bukkit.block.Chest chest2) {
+        boolean check = false;
+        if (chest1.getInventory().getSize() == chest2.getInventory().getSize()) {
+            int invSize = chest1.getInventory().getSize();
+            for (int a = 0; a<invSize; a++) {
+                ItemStack stack1 = chest1.getInventory().getItem(a);
+                ItemStack stack2 = chest2.getInventory().getItem(a);
+                if (stack1 != null && stack2 != null) {
+                    if (stack1.getType() != Material.AIR && stack2.getType() != Material.AIR) {
+                        ItemStack temp1 = new ItemStack(stack1);
+                        ItemStack temp2 = new ItemStack(stack2);
+                        temp1.setAmount(1);
+                        temp2.setAmount(1);
+                        if (temp1.equals(temp2)) {
+                            check = true;
+                        } else {
+                            check = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return check;
+    }
+
     public Location getOppositeChestLocation(org.bukkit.block.Chest clickChest) {
         org.bukkit.block.data.type.Chest clickChestData = (org.bukkit.block.data.type.Chest) clickChest.getBlockData();
         Location chestLocation = clickChest.getLocation();
@@ -202,12 +228,16 @@ public class PickupUtil {
                 switch (clickChestData.getType()) {
                     case LEFT:
                         if (checkChestData.getType() == Chest.Type.RIGHT) {
-                            return otherLoc;
+                            if (isSameChest(clickChest, (org.bukkit.block.Chest) checkBlock.getState())) {
+                                return otherLoc;
+                            }
                         }
                         break;
                     case RIGHT:
                         if (checkChestData.getType() == Chest.Type.LEFT) {
-                            return otherLoc;
+                            if (isSameChest(clickChest, (org.bukkit.block.Chest) checkBlock.getState())) {
+                                return otherLoc;
+                            }
                         }
                         break;
                 }
@@ -222,12 +252,16 @@ public class PickupUtil {
                 switch (clickChestData.getType()) {
                     case LEFT:
                         if (checkChestData.getType() == Chest.Type.RIGHT) {
-                            return otherLoc;
+                            if (isSameChest(clickChest, (org.bukkit.block.Chest) checkBlock.getState())) {
+                                return otherLoc;
+                            }
                         }
                         break;
                     case RIGHT:
                         if (checkChestData.getType() == Chest.Type.LEFT) {
-                            return otherLoc;
+                            if (isSameChest(clickChest, (org.bukkit.block.Chest) checkBlock.getState())) {
+                                return otherLoc;
+                            }
                         }
                         break;
                 }
