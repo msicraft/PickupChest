@@ -28,9 +28,23 @@ public class ChestInteractEvent implements Listener {
 
     private final ItemStack airStack = new ItemStack(Material.AIR, 1);
 
+    private static boolean isEnabled = false;
+    private static boolean isEnabledDoubleChest = false;
+    private static boolean isEnabledPermission = false;
+    private static boolean displayLore = false;
+    private static String permissionMessage = null; //pickupchest.pickup.single, pickupchest.pickup.double
+
+    public static void reloadVariables() {
+        isEnabled = PickupChest.getPlugin().getConfig().contains("Setting.Enabled") && PickupChest.getPlugin().getConfig().getBoolean("Setting.Enabled");
+        isEnabledDoubleChest = PickupChest.getPlugin().getConfig().contains("Setting.Pickup-DoubleChest") && PickupChest.getPlugin().getConfig().getBoolean("Setting.Pickup-DoubleChest");
+        displayLore = PickupChest.getPlugin().getConfig().contains("Setting.Display-Lore.Enabled") && PickupChest.getPlugin().getConfig().getBoolean("Setting.Display-Lore.Enabled");
+        isEnabledPermission = PickupChest.getPlugin().getConfig().contains("Setting.PickUpPermission.Enabled") && PickupChest.getPlugin().getConfig().getBoolean("Setting.PickUpPermission.Enabled");
+        permissionMessage = PickupChest.getPlugin().getConfig().contains("Setting.PickUpPermission.Message") ? PickupChest.getPlugin().getConfig().getString("Setting.PickUpPermission.Message") : null;
+    }
+
     @EventHandler
     public void onPickUpChest(PlayerInteractEvent e) {
-        if (PickupChest.getPlugin().getConfig().getBoolean("Setting.Enabled")) {
+        if (isEnabled) {
             Player player = e.getPlayer();
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.isSneaking()) {
                 Block block = e.getClickedBlock();
@@ -40,6 +54,16 @@ public class ChestInteractEvent implements Listener {
                     org.bukkit.block.data.type.Chest chestData = (org.bukkit.block.data.type.Chest) chest.getBlockData();
                     List<String> lore = new ArrayList<>();
                     if (chestData.getType() == org.bukkit.block.data.type.Chest.Type.SINGLE) {
+                        if (isEnabledPermission) {
+                            if (!player.hasPermission("pickupchest.pickup.single")) {
+                                if (permissionMessage != null) {
+                                    if (!permissionMessage.equals("")) {
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permissionMessage));
+                                    }
+                                }
+                                return;
+                            }
+                        }
                         Inventory inventory = chest.getBlockInventory();
                         ItemStack[] contents = new ItemStack[inventory.getSize()];
                         int size = inventory.getSize();
@@ -52,7 +76,6 @@ public class ChestInteractEvent implements Listener {
                                 itemSize++;
                             }
                         }
-                        boolean displayLore = PickupChest.getPlugin().getConfig().getBoolean("Setting.Display-Lore.Enabled");
                         if (displayLore) {
                             lore = pickupUtil.getChestInfoLore(itemSize, contents);
                         }
@@ -66,9 +89,18 @@ public class ChestInteractEvent implements Listener {
                             player.getWorld().dropItemNaturally(player.getLocation(), pickupChest);
                         }
                     } else {
-                        boolean checkPickupDoubleChest = PickupChest.getPlugin().getConfig().getBoolean("Setting.Pickup-DoubleChest");
-                        if (checkPickupDoubleChest) {
+                        if (isEnabledDoubleChest) {
                             if (chestData.getType() == org.bukkit.block.data.type.Chest.Type.LEFT || chestData.getType() == org.bukkit.block.data.type.Chest.Type.RIGHT) { //when double chest, pick up single chest
+                                if (isEnabledPermission) {
+                                    if (!player.hasPermission("pickupchest.pickup.double")) {
+                                        if (permissionMessage != null) {
+                                            if (!permissionMessage.equals("")) {
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permissionMessage));
+                                            }
+                                        }
+                                        return;
+                                    }
+                                }
                                 Location getOppositeLoc = pickupUtil.getOppositeChestLocation(chest);
                                 if (getOppositeLoc != null) {
                                     Inventory inventory = chest.getInventory();
@@ -83,7 +115,6 @@ public class ChestInteractEvent implements Listener {
                                             itemSize++;
                                         }
                                     }
-                                    boolean displayLore = PickupChest.getPlugin().getConfig().getBoolean("Setting.Display-Lore.Enabled");
                                     if (displayLore) {
                                         lore = pickupUtil.getChestInfoLore(itemSize, contents);
                                     }

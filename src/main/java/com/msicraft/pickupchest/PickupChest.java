@@ -32,7 +32,7 @@ public final class PickupChest extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         final int configVersion = plugin.getConfig().contains("config-version", true) ? plugin.getConfig().getInt("config-version") : -1;
-        if (configVersion != 1) {
+        if (configVersion != 2) {
             getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + ChatColor.RED + " You are using the old config");
             getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + ChatColor.RED + " Created the latest config.yml after replacing the old config.yml with config_old.yml");
             replaceconfig();
@@ -55,6 +55,7 @@ public final class PickupChest extends JavaPlugin {
 
     public void FilesReload() {
         plugin.reloadConfig();
+        ChestInteractEvent.reloadVariables();
     }
 
     protected FileConfiguration config;

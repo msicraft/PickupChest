@@ -1,4 +1,4 @@
-config-version: 1
+config-version: 2
 Setting:
   Enabled: true
   Display-Lore:
@@ -12,6 +12,9 @@ Setting:
   #If Type is 'autodrop', 1 chest will automatically drop from the inventory to the ground when the player has reached the maximum number of chests.
   Reach-Max-Chest: #available type = [drop, autodrop]
     Type: drop
+  PickUpPermission:
+    Enabled: false
+    Message: "&cYou don't have permission"
 
 Message:
   Pickup-Chest-Name: '&aPickup Chest'
