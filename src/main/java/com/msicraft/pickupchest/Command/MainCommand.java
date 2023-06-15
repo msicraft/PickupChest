@@ -26,7 +26,7 @@ public class MainCommand implements CommandExecutor {
                     case "reload":
                         if (args.length == 1) {
                             if (sender.isOp()) {
-                                PickupChest.getPlugin().FilesReload();
+                                PickupChest.getPlugin().filesReload();
                                 sender.sendMessage(PickupChest.getPrefix() + ChatColor.GREEN + " Plugin config reloaded");
                             }
                         }

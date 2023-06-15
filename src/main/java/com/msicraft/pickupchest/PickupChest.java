@@ -2,9 +2,14 @@ package com.msicraft.pickupchest;
 
 import com.msicraft.pickupchest.Command.MainCommand;
 import com.msicraft.pickupchest.Command.TabComplete;
+import com.msicraft.pickupchest.Compatibility.GriefPrevention.GriefPreventionUtil;
+import com.msicraft.pickupchest.Compatibility.Towny.TownyUtil;
+import com.msicraft.pickupchest.Compatibility.WorldGuard.WorldGuardUtil;
 import com.msicraft.pickupchest.Event.ChestInteractEvent;
 import com.msicraft.pickupchest.Event.ChestRelateEvent;
 import com.msicraft.pickupchest.Event.PreventDropEvent;
+import com.msicraft.pickupchest.bStats.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,6 +33,10 @@ public final class PickupChest extends JavaPlugin {
         return plugin;
     }
 
+    public static boolean isEnabledTowny = false;
+    public static boolean isEnabledWorldGuard = false;
+    public static boolean isEnabledGriefPrevention = false;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -40,12 +49,15 @@ public final class PickupChest extends JavaPlugin {
         } else {
             getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + " You are using the latest version of config.yml");
         }
+        filesReload();
         getServer().getPluginCommand("pickupchest").setExecutor(new MainCommand());
         getServer().getPluginCommand("pickupchest").setTabCompleter(new TabComplete());
         getServer().getPluginManager().registerEvents(new ChestInteractEvent(), this);
         getServer().getPluginManager().registerEvents(new PreventDropEvent(), this);
         getServer().getPluginManager().registerEvents(new ChestRelateEvent(), this);
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + " Plugin Enable");
+        Metrics metrics = new Metrics(this, 18754);
+        getLogger().info("Enabled metrics. You may opt-out by changing plugins/bStats/config.yml");
     }
 
     @Override
@@ -53,9 +65,28 @@ public final class PickupChest extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + ChatColor.RED +" Plugin Disable");
     }
 
-    public void FilesReload() {
+    public void filesReload() {
         plugin.reloadConfig();
         ChestInteractEvent.reloadVariables();
+        reloadVariables();
+        if (isEnabledTowny) { TownyUtil.reloadVariables(); }
+        if (isEnabledWorldGuard) { WorldGuardUtil.reloadVariables(); }
+        if (isEnabledGriefPrevention) { GriefPreventionUtil.reloadVariables(); }
+    }
+
+    private void reloadVariables() {
+        if (Bukkit.getPluginManager().getPlugin("Towny") != null) {
+            isEnabledTowny = getConfig().contains("Compatibility.Towny.Enabled") && getConfig().getBoolean("Compatibility.Towny.Enabled");
+            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + " Detect Towny plugin");
+        }
+        if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
+            isEnabledWorldGuard = getConfig().contains("Compatibility.WorldGuard.Enabled") && getConfig().getBoolean("Compatibility.WorldGuard.Enabled");
+            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + " Detect WorldGuard plugin");
+        }
+        if (Bukkit.getPluginManager().getPlugin("GriefPrevention") != null) {
+            isEnabledGriefPrevention = getConfig().contains("Compatibility.GriefPrevention.Enabled") && getConfig().getBoolean("Compatibility.GriefPrevention.Enabled");
+            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + " Detect GriefPrevention plugin");
+        }
     }
 
     protected FileConfiguration config;

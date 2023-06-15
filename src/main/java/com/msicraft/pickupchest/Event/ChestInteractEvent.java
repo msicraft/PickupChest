@@ -1,5 +1,6 @@
 package com.msicraft.pickupchest.Event;
 
+import com.msicraft.pickupchest.Compatibility.CompatibilityUtil;
 import com.msicraft.pickupchest.PickupChest;
 import com.msicraft.pickupchest.Util.PickupUtil;
 import org.bukkit.*;
@@ -47,6 +48,17 @@ public class ChestInteractEvent implements Listener {
         if (isEnabled) {
             Player player = e.getPlayer();
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.isSneaking()) {
+                ItemStack handStack = e.getItem();
+                if (handStack != null && handStack.getType() != Material.AIR) {
+                    if (pickupUtil.isPickupChest(handStack)) {
+                        return;
+                    }
+                }
+                if (CompatibilityUtil.isEnabledCompatibility()) {
+                    if (!CompatibilityUtil.canPickupChest(player)) {
+                        return;
+                    }
+                }
                 Block block = e.getClickedBlock();
                 if (block != null && block.getType() == Material.CHEST) {
                     e.setCancelled(true);
@@ -191,11 +203,16 @@ public class ChestInteractEvent implements Listener {
         ItemStack itemStack = e.getItemInHand();
         if (itemStack.getType() == Material.CHEST) {
             if (pickupUtil.isPickupChest(itemStack) && itemStack.getItemMeta() != null) {
+                Player player = e.getPlayer();
+                if (CompatibilityUtil.isEnabledCompatibility()) {
+                    if (!CompatibilityUtil.canPickupChest(player)) {
+                        return;
+                    }
+                }
                 String chestData = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(PickupChest.getPlugin(), "PickupChest-PickupChest"), PersistentDataType.STRING);
                 Block block = e.getBlockPlaced();
                 Chest chest = (Chest) block.getState();
                 BlockData blockData = block.getBlockData();
-                Player player = e.getPlayer();
                 Location blockLoc = block.getLocation();
                 if (pickupUtil.isDoubleChest(itemStack)) {
                     if (blockData instanceof Directional) {
