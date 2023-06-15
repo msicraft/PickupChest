@@ -1,6 +1,5 @@
 package com.msicraft.pickupchest.Compatibility;
 
-import com.msicraft.pickupchest.Compatibility.GriefPrevention.GriefPreventionUtil;
 import com.msicraft.pickupchest.Compatibility.Towny.TownyUtil;
 import com.msicraft.pickupchest.Compatibility.WorldGuard.WorldGuardUtil;
 import com.msicraft.pickupchest.PickupChest;
@@ -24,7 +23,7 @@ public class CompatibilityUtil {
             return WorldGuardUtil.isCurrentRegionMember(player);
         }
         if (PickupChest.isEnabledGriefPrevention) {
-            return GriefPreventionUtil.isInSideClaim(player);
+            //return GriefPreventionUtil.isInSideClaim(player);
         }
         return false;
     }
@@ -37,7 +36,7 @@ public class CompatibilityUtil {
             return WorldGuardUtil.isCurrentRegionMember(player);
         }
         if (PickupChest.isEnabledGriefPrevention) {
-            return GriefPreventionUtil.isInSideClaim(player);
+            //return GriefPreventionUtil.isInSideClaim(player);
         }
         return false;
     }

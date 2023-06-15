@@ -1,3 +1,4 @@
+/*
 package com.msicraft.pickupchest.Compatibility.GriefPrevention;
 
 import com.msicraft.pickupchest.PickupChest;
@@ -21,3 +22,5 @@ public class GriefPreventionUtil {
     }
 
 }
+
+ */
