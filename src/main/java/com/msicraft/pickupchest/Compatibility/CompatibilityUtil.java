@@ -17,23 +17,18 @@ public class CompatibilityUtil {
 
     public static boolean canPickupChest(Player player) {
         if (PickupChest.isEnabledTowny) {
-            return TownyUtil.inOwnTown(player);
+            if (TownyUtil.isEnabledInOwnTown) {
+                return TownyUtil.inOwnTown(player);
+            } else {
+                return true;
+            }
         }
         if (PickupChest.isEnabledWorldGuard) {
-            return WorldGuardUtil.isCurrentRegionMember(player);
-        }
-        if (PickupChest.isEnabledGriefPrevention) {
-            //return GriefPreventionUtil.isInSideClaim(player);
-        }
-        return false;
-    }
-
-    public static boolean canPlaceChest(Player player) {
-        if (PickupChest.isEnabledTowny) {
-            return TownyUtil.inOwnTown(player);
-        }
-        if (PickupChest.isEnabledWorldGuard) {
-            return WorldGuardUtil.isCurrentRegionMember(player);
+            if (WorldGuardUtil.isEnabledIsRegionMember) {
+                return WorldGuardUtil.isCurrentRegionMember(player);
+            } else {
+                return true;
+            }
         }
         if (PickupChest.isEnabledGriefPrevention) {
             //return GriefPreventionUtil.isInSideClaim(player);
