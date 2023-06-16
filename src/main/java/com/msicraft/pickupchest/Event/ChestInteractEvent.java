@@ -50,12 +50,18 @@ public class ChestInteractEvent implements Listener {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.isSneaking()) {
                 ItemStack handStack = e.getItem();
                 if (handStack != null && handStack.getType() != Material.AIR) {
+                    if (handStack.getType() == Material.HOPPER) {
+                        e.setCancelled(true);
+                        return;
+                    }
                     if (pickupUtil.isPickupChest(handStack)) {
+                        e.setCancelled(true);
                         return;
                     }
                 }
                 if (CompatibilityUtil.isEnabledCompatibility()) {
                     if (!CompatibilityUtil.canPickupChest(player)) {
+                        e.setCancelled(true);
                         return;
                     }
                 }
@@ -206,6 +212,7 @@ public class ChestInteractEvent implements Listener {
                 Player player = e.getPlayer();
                 if (CompatibilityUtil.isEnabledCompatibility()) {
                     if (!CompatibilityUtil.canPickupChest(player)) {
+                        e.setCancelled(true);
                         return;
                     }
                 }

@@ -1,5 +1,5 @@
 config-version: 2
-Compatibility:
+Compatibility: #Server restart required
   Towny:
     Enabled: false
     Prevent-Options:
@@ -8,6 +8,10 @@ Compatibility:
     Enabled: false
     Prevent-Options:
       IsRegionMember: true #If true, you must be a member of the region or higher to pick up or place the chest.
+  GriefPrevention:
+    Enabled: false
+    Prevent-Options:
+      InClaim: true #If true, you can pick up and place chests on your claims.
 Setting:
   Enabled: true
   Display-Lore:
