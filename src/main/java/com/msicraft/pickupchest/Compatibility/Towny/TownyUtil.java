@@ -1,30 +1,24 @@
 package com.msicraft.pickupchest.Compatibility.Towny;
 
-import com.msicraft.pickupchest.PickupChest;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
+import com.palmergames.bukkit.towny.object.TownyPermission;
+import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class TownyUtil {
 
-    public static boolean isEnabledInOwnTown = false;
-
-    public static void reloadVariables() {
-        isEnabledInOwnTown = PickupChest.getPlugin().getConfig().contains("Compatibility.Towny.Prevent-Options.InOwnTown") && PickupChest.getPlugin().getConfig().getBoolean("Compatibility.Towny.Prevent-Options.InOwnTown");
-    }
-
-    public static boolean inOwnTown(Player player) {
+    public static boolean inOwnTownCanBuild(Player player, Block block) {
         boolean check = false;
-        if (TownyAPI.getInstance().isWilderness(player.getLocation())) {
-            return false;
+        if (PlayerCacheUtil.getCachePermission(player, block.getLocation(), block.getType(), TownyPermission.ActionType.BUILD)) {
+            return true;
         }
-        Town town = TownyAPI.getInstance().getTown(player.getLocation());
+        Town town = TownyAPI.getInstance().getTown(block.getLocation());
         Resident resident = TownyAPI.getInstance().getResident(player.getUniqueId());
-        if (resident != null && town != null) {
-            if (resident.hasTown() && resident.getTownOrNull().equals(town)) {
-                check = true;
-            }
+        if (resident != null && town != null && resident.hasTown() && resident.getTownOrNull().equals(town)) {
+            return true;
         }
         return check;
     }

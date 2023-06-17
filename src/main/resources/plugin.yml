@@ -3,7 +3,7 @@ version: 1.2.1 #'${project.version}'
 main: com.msicraft.pickupchest.PickupChest
 api-version: 1.16
 authors: [ msicraft ]
-softdepend: [Towny, WorldGuard, GriefPrevention]
+softdepend: [Towny, WorldGuard, GriefPrevention, BlockLocker]
 description: Allow pickup chest
 commands:
   pickupchest:

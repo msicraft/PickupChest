@@ -2,8 +2,6 @@ package com.msicraft.pickupchest;
 
 import com.msicraft.pickupchest.Command.MainCommand;
 import com.msicraft.pickupchest.Command.TabComplete;
-import com.msicraft.pickupchest.Compatibility.Towny.TownyUtil;
-import com.msicraft.pickupchest.Compatibility.WorldGuard.WorldGuardUtil;
 import com.msicraft.pickupchest.Event.ChestInteractEvent;
 import com.msicraft.pickupchest.Event.ChestRelateEvent;
 import com.msicraft.pickupchest.Event.PreventDropEvent;
@@ -69,9 +67,6 @@ public final class PickupChest extends JavaPlugin {
         plugin.reloadConfig();
         ChestInteractEvent.reloadVariables();
         reloadVariables();
-        if (isEnabledTowny) { TownyUtil.reloadVariables(); }
-        if (isEnabledWorldGuard) { WorldGuardUtil.reloadVariables(); }
-        if (isEnabledBlockLocker) {}
     }
 
     private void reloadVariables() {

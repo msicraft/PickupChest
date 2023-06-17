@@ -1,6 +1,5 @@
 package com.msicraft.pickupchest.Compatibility.WorldGuard;
 
-import com.msicraft.pickupchest.PickupChest;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldguard.LocalPlayer;
@@ -16,12 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class WorldGuardUtil {
-
-    public static boolean isEnabledIsRegionMember = false;
-
-    public static void reloadVariables() {
-        isEnabledIsRegionMember = PickupChest.getPlugin().getConfig().contains("Compatibility.WorldGuard.Prevent-Options.IsRegionMember") && PickupChest.getPlugin().getConfig().getBoolean("Compatibility.WorldGuard.Prevent-Options.IsRegionMember");
-    }
 
     public static boolean isCurrentRegionMemberOrCanBuild(Player player, Location clickLocation) {
         boolean check = false;

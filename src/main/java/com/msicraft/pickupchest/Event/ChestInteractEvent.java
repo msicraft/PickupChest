@@ -217,15 +217,15 @@ public class ChestInteractEvent implements Listener {
         if (itemStack.getType() == Material.CHEST) {
             if (pickupUtil.isPickupChest(itemStack) && itemStack.getItemMeta() != null) {
                 Player player = e.getPlayer();
+                Block block = e.getBlockPlaced();
                 if (CompatibilityUtil.isEnabledCompatibility()) {
                     Location location = e.getBlockPlaced().getLocation();
-                    if (!CompatibilityUtil.canPickupChest(player, location, null)) {
+                    if (!CompatibilityUtil.canPickupChest(player, location, block)) {
                         e.setCancelled(true);
                         return;
                     }
                 }
                 String chestData = itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(PickupChest.getPlugin(), "PickupChest-PickupChest"), PersistentDataType.STRING);
-                Block block = e.getBlockPlaced();
                 Chest chest = (Chest) block.getState();
                 BlockData blockData = block.getBlockData();
                 Location blockLoc = block.getLocation();
@@ -235,7 +235,13 @@ public class ChestInteractEvent implements Listener {
                         if (pickupUtil.setDoubleChest(block, blockFace)) {
                             Bukkit.getScheduler().runTaskLater(PickupChest.getPlugin(), ()-> {
                                 try {
-                                    Chest c = (Chest) blockLoc.getBlock().getState();
+                                    Chest c = null;
+                                    try {
+                                        c = (Chest) blockLoc.getBlock().getState();
+                                    } catch (ClassCastException ex) {
+                                        e.setCancelled(true);
+                                        return;
+                                    }
                                     Inventory inventory = pickupUtil.fromBase64(chestData);
                                     int count = 0;
                                     for (ItemStack invItem : inventory.getContents()) {
@@ -310,6 +316,7 @@ public class ChestInteractEvent implements Listener {
                                 }
                             }
                         } catch (IOException ex) {
+                            e.setCancelled(true);
                             ex.printStackTrace();
                         }
                     }, 1L);

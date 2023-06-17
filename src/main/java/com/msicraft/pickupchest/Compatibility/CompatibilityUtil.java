@@ -25,21 +25,12 @@ public class CompatibilityUtil {
             }
         }
         if (PickupChest.isEnabledTowny) {
-            if (TownyUtil.isEnabledInOwnTown) {
-                return TownyUtil.inOwnTown(player);
-            } else {
-                return true;
+            if (block != null) {
+                return TownyUtil.inOwnTownCanBuild(player, block);
             }
         }
         if (PickupChest.isEnabledWorldGuard) {
-            if (WorldGuardUtil.isEnabledIsRegionMember) {
-                return WorldGuardUtil.isCurrentRegionMemberOrCanBuild(player, location);
-            } else {
-                return true;
-            }
-        }
-        if (PickupChest.isEnabledGriefPrevention) {
-            //return GriefPreventionUtil.isInSideClaim(player);
+            return WorldGuardUtil.isCurrentRegionMemberOrCanBuild(player, location);
         }
         return false;
     }
