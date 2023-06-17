@@ -1,6 +1,7 @@
 package com.msicraft.pickupchest.Event;
 
 import com.msicraft.pickupchest.Compatibility.CompatibilityUtil;
+import com.msicraft.pickupchest.Compatibility.WorldGuard.WorldGuardUtil;
 import com.msicraft.pickupchest.PickupChest;
 import com.msicraft.pickupchest.Util.PickupUtil;
 import org.bukkit.*;
@@ -51,17 +52,21 @@ public class ChestInteractEvent implements Listener {
                 ItemStack handStack = e.getItem();
                 if (handStack != null && handStack.getType() != Material.AIR) {
                     if (handStack.getType() == Material.HOPPER) {
-                        e.setCancelled(true);
                         return;
                     }
                     if (pickupUtil.isPickupChest(handStack)) {
-                        e.setCancelled(true);
                         return;
                     }
                 }
                 if (CompatibilityUtil.isEnabledCompatibility()) {
-                    if (!CompatibilityUtil.canPickupChest(player)) {
-                        e.setCancelled(true);
+                    Block clickBlock = e.getClickedBlock();
+                    if (clickBlock != null) {
+                        Location clickLoc = clickBlock.getLocation();
+                        if (!CompatibilityUtil.canPickupChest(player, clickLoc)) {
+                            e.setCancelled(true);
+                            return;
+                        }
+                    } else {
                         return;
                     }
                 }
@@ -211,7 +216,8 @@ public class ChestInteractEvent implements Listener {
             if (pickupUtil.isPickupChest(itemStack) && itemStack.getItemMeta() != null) {
                 Player player = e.getPlayer();
                 if (CompatibilityUtil.isEnabledCompatibility()) {
-                    if (!CompatibilityUtil.canPickupChest(player)) {
+                    Location location = e.getBlockPlaced().getLocation();
+                    if (!CompatibilityUtil.canPickupChest(player, location)) {
                         e.setCancelled(true);
                         return;
                     }

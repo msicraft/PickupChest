@@ -3,6 +3,7 @@ package com.msicraft.pickupchest.Compatibility;
 import com.msicraft.pickupchest.Compatibility.Towny.TownyUtil;
 import com.msicraft.pickupchest.Compatibility.WorldGuard.WorldGuardUtil;
 import com.msicraft.pickupchest.PickupChest;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class CompatibilityUtil {
@@ -15,7 +16,7 @@ public class CompatibilityUtil {
         return check;
     }
 
-    public static boolean canPickupChest(Player player) {
+    public static boolean canPickupChest(Player player, Location location) {
         if (PickupChest.isEnabledTowny) {
             if (TownyUtil.isEnabledInOwnTown) {
                 return TownyUtil.inOwnTown(player);
@@ -25,7 +26,7 @@ public class CompatibilityUtil {
         }
         if (PickupChest.isEnabledWorldGuard) {
             if (WorldGuardUtil.isEnabledIsRegionMember) {
-                return WorldGuardUtil.isCurrentRegionMember(player);
+                return WorldGuardUtil.isCurrentRegionMemberOrCanBuild(player, location);
             } else {
                 return true;
             }

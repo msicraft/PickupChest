@@ -34,7 +34,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <outputDirectory>B:\플러그인\Pickup Chest\1.2.1\dev-2</outputDirectory>
+                    <outputDirectory>B:\플러그인\Pickup Chest\1.2.1\dev-3</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
