@@ -1,7 +1,6 @@
 package com.msicraft.pickupchest.Event;
 
 import com.msicraft.pickupchest.Compatibility.CompatibilityUtil;
-import com.msicraft.pickupchest.Compatibility.WorldGuard.WorldGuardUtil;
 import com.msicraft.pickupchest.PickupChest;
 import com.msicraft.pickupchest.Util.PickupUtil;
 import org.bukkit.*;
@@ -51,6 +50,9 @@ public class ChestInteractEvent implements Listener {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK && player.isSneaking()) {
                 ItemStack handStack = e.getItem();
                 if (handStack != null && handStack.getType() != Material.AIR) {
+                    if (handStack.getType().toString().toUpperCase().contains("SIGN")) {
+                        return;
+                    }
                     if (handStack.getType() == Material.HOPPER) {
                         return;
                     }
@@ -62,7 +64,7 @@ public class ChestInteractEvent implements Listener {
                     Block clickBlock = e.getClickedBlock();
                     if (clickBlock != null) {
                         Location clickLoc = clickBlock.getLocation();
-                        if (!CompatibilityUtil.canPickupChest(player, clickLoc)) {
+                        if (!CompatibilityUtil.canPickupChest(player, clickLoc, clickBlock)) {
                             e.setCancelled(true);
                             return;
                         }
@@ -217,7 +219,7 @@ public class ChestInteractEvent implements Listener {
                 Player player = e.getPlayer();
                 if (CompatibilityUtil.isEnabledCompatibility()) {
                     Location location = e.getBlockPlaced().getLocation();
-                    if (!CompatibilityUtil.canPickupChest(player, location)) {
+                    if (!CompatibilityUtil.canPickupChest(player, location, null)) {
                         e.setCancelled(true);
                         return;
                     }

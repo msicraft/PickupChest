@@ -35,6 +35,7 @@ public final class PickupChest extends JavaPlugin {
     public static boolean isEnabledTowny = false;
     public static boolean isEnabledWorldGuard = false;
     public static boolean isEnabledGriefPrevention = false;
+    public static boolean isEnabledBlockLocker = false;
 
     @Override
     public void onEnable() {
@@ -70,7 +71,7 @@ public final class PickupChest extends JavaPlugin {
         reloadVariables();
         if (isEnabledTowny) { TownyUtil.reloadVariables(); }
         if (isEnabledWorldGuard) { WorldGuardUtil.reloadVariables(); }
-        //if (isEnabledGriefPrevention) { GriefPreventionUtil.reloadVariables(); }
+        if (isEnabledBlockLocker) {}
     }
 
     private void reloadVariables() {
@@ -85,6 +86,10 @@ public final class PickupChest extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("GriefPrevention") != null) {
             isEnabledGriefPrevention = getConfig().contains("Compatibility.GriefPrevention.Enabled") && getConfig().getBoolean("Compatibility.GriefPrevention.Enabled");
             getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + " Detect GriefPrevention plugin");
+        }
+        if (Bukkit.getPluginManager().getPlugin("BlockLocker") != null) {
+            isEnabledBlockLocker = getConfig().contains("Compatibility.BlockLocker.Enabled") && getConfig().getBoolean("Compatibility.BlockLocker.Enabled");
+            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + " Detect BlockLocker plugin");
         }
     }
 

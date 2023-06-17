@@ -34,7 +34,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <outputDirectory>B:\플러그인\Pickup Chest\1.2.1\dev-3</outputDirectory>
+                    <outputDirectory>B:\Bukkit\1.16.5 spigot test\plugins</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
@@ -79,6 +79,10 @@
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -110,6 +114,12 @@
             <groupId>com.github.TechFortress</groupId>
             <artifactId>GriefPrevention</artifactId>
             <version>16.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>nl.rutgerkok</groupId>
+            <artifactId>blocklocker</artifactId>
+            <version>1.9</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

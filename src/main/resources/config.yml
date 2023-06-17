@@ -8,6 +8,8 @@ Compatibility: #Server restart required
     Enabled: false
     Prevent-Options:
       IsRegionMember: true #If true, you must be a member of the region or higher to pick up or place the chest.
+  BlockLocker:
+    Enabled: false #If true, you can only pick up chests if you have permission to open them.
   GriefPrevention:
     Enabled: false
     Prevent-Options:
