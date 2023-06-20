@@ -4,6 +4,9 @@ Compatibility: #Server restart required
     Enabled: false #If true, you can only pick up and place chests if you are in your own town.
   WorldGuard:
     Enabled: false #If true, you must be a member of the region or higher to pick up or place the chest.
+    Ignore-Regions: #Regions in the list are bypassed (high priority)
+      - testregion
+      - testreiong2
   BlockLocker:
     Enabled: false #If true, you can only pick up chests if you have permission to open them.
 Setting:

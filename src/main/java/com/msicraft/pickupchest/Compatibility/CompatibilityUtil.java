@@ -30,6 +30,9 @@ public class CompatibilityUtil {
             }
         }
         if (PickupChest.isEnabledWorldGuard) {
+            if (WorldGuardUtil.inBypassRegion(player, location)) {
+                return true;
+            }
             return WorldGuardUtil.isCurrentRegionMemberOrCanBuild(player, location);
         }
         return false;

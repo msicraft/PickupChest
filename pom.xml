@@ -34,7 +34,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <outputDirectory>B:\Bukkit\1.16.5 spigot test\plugins</outputDirectory>
+                    <outputDirectory>B:\플러그인\Pickup Chest\1.2.1\dev-6</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
